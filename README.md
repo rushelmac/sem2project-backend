@@ -1,2 +1,2 @@
 # sem2project-backend
-Backend for wce linkedin website.
+Backend for wce cse dept passed out students' website.
