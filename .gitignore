@@ -1,2 +1,6 @@
 # The node modules forlder
 node_modules
+
+yarn.lock
+
+.env
