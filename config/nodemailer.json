@@ -1,0 +1,14 @@
+{
+    "transporter": {
+        "service": "gmail",
+        "secure" : false,
+        "port"   : 25, 
+        "auth": {
+        "user": "rushishelke633@gmail.com",
+        "pass": "password"
+        },
+        "tls":{
+            "rejectUnauthorized" : false
+        }
+    }
+}
