@@ -1,40 +1,46 @@
 // var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
+const express = require('express'),
+  path        = require('path'),
+  mongoose    = require('mongoose'),
+  cors        = require('cors'),
+  indexRouter = require('./routes/index'),
+  usersRouter = require('./routes/users'),
+  authRouter  = require('./routes/auth');
+
 // var cookieParser = require('cookie-parser');
 // var logger = require('morgan');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var authRouter = require('./routes/auth');
-const mongoose = require('mongoose');
-const cors = require('cors');
+
+// For importing credentials and private keys
 require('dotenv').config();
 
+// Creating express app
 const app = express();
 
+// Using json object readability
+app.use(express.json());
+
+// Ensuring jwt private key in the system.
 if(!process.env.WC_jwtPrivateKey){
-    console.error('FATAL ERROR: jwtPrivateKey is not defined');
-    process.exit(1);
+  console.error('FATAL ERROR: jwtPrivateKey is not defined');
+  process.exit(1);
 }
 
 //databases connection
-const uri = "mongodb+srv://TeamBakchodi:HumBakchodiKarenge@cluster0.jg9l3.mongodb.net/WC-Storage?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.Database_Username}:${process.env.Database_Password}@cluster0.jg9l3.mongodb.net/WC-Storage?retryWrites=true&w=majority`;
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
 .then(() => console.log('Connected to MongoDB...'))
 .catch(err => console.error('Failed to connect...'));
 
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
-
 // app.use(logger('dev'));
-// app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
+// Allowing cross origin requests
 app.use(cors());
+
+// Using route modules
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
@@ -54,6 +60,7 @@ app.use('/auth', authRouter);
 //   res.render('error');
 // });
 
+// Listening on server port OR port no 5000
 const port = process.env.PORT || 5000;
 app.listen(port, ()=> {
     console.log(`Server is running on ${port}`);
