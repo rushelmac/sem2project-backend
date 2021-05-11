@@ -3,7 +3,7 @@ Joi.objectId = require('joi-objectid')(Joi);
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const { string } = require('joi');
+const { string, boolean } = require('joi');
 
 const userSchema = new mongoose.Schema({
     first_name:{
@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength:10,
         maxlength:255
+    },
+    confirmed:{
+        type: boolean,
+        default: false
     },
     password:{
         type: String,
