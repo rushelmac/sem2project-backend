@@ -12,13 +12,13 @@ router.use(express.json());
 // For importing jwt private key
 require('dotenv').config();
 
-// Route to get all users
+// Route to get all users: Tested, Works fine
 router.get('/', async (req, res) => {
     const users = await User.find().sort('first_name');
     res.send(users);
 });
 
-// Route to get a specific user by id.
+// Route to get a specific user by id. Tested, Works fine
 router.get('/:id', async (req, res) => {
     const { error } = validateParams(req.params);
     if(error) return res.status(400).send(error.details[0].message);
@@ -72,14 +72,14 @@ router.post('/' , async (req, res ) =>{
 });
 
 // Email verification route.
-router.post('/confirmation/:token', async (req, res)=>{
+router.get('/confirmation/:token', async (req, res)=>{
     try{
         const {user:{id}} = jwt.verify(req.params.token, process.env.WC_jwtPrivateKey);
-        await User.updateOne({confirmed: true}, {where:{id}});
+        await User.updateOne({_id:id}, {$set:{confirmed: true}});
+        res.redirect(`http://127.0.0.1:5000/users/${id}`);
     } catch(error){
         res.status(500).send({message: error});
     }
-    return res.redirect('http://127.0.0.1:5000/users/login');
 });
 
 router.put('/:id', async (req, res) =>{
