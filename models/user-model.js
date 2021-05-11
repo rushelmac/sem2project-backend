@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
         maxlength:255
     },
     confirmed:{
-        type: boolean,
+        type: Boolean,
         default: false
     },
     password:{
