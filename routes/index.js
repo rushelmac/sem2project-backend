@@ -1,3 +1,4 @@
+const searchAPI = require('./../api/searchAPI');
 var express = require('express');
 var router = express.Router();
 
@@ -5,5 +6,8 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+
+// search by name
+router.get('/search/:name', searchAPI().searchName)
 
 module.exports = router;
