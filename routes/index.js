@@ -8,7 +8,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-// search by name
+// search
 router.get('/search',searchAPI.searchName);
+router.get('/searchRole',searchAPI.searchRole);
 
 module.exports = router;
