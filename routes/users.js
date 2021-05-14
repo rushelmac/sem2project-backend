@@ -110,5 +110,10 @@ router.delete('/:id', async (req, res) => {
     res.send(found);
 });
 
+// temp login route
+router.get("/login", async (req, res)=>{
+    res.send("you've successfully logged in");
+});
+
 module.exports = router;
 
