@@ -20,10 +20,10 @@ const app = express();
 app.use(express.json());
 
 // Ensuring jwt private key in the system.
-if(!process.env.WC_jwtPrivateKey){
-  console.error('FATAL ERROR: jwtPrivateKey is not defined');
-  process.exit(1);
-}
+// if(!process.env.WC_jwtPrivateKey){
+//   console.error('FATAL ERROR: jwtPrivateKey is not defined');
+//   process.exit(1);
+// }
 
 //databases connection
 const uri = `mongodb+srv://${process.env.Database_Username}:${process.env.Database_Password}@cluster0.jg9l3.mongodb.net/WC-Storage?retryWrites=true&w=majority`;

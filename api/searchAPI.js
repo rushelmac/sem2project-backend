@@ -1,12 +1,17 @@
 const { use } = require("../routes");
-const user_model = require("./../models/user-model");
+const User = require("./../models/user-model");
 
 function searchAPI() {
     return {
         searchName(req, res) {
-            var regex = new RegExp(req.params.name,'i');
-            user_model.find({first_name:regex}).then((result) => {
-                 return res.status(200).json(result);
+            // const searchedField = req.query.name;
+            // User.findMany({name:{$regex: searchedField,$options: '$i'}})
+            //     .then(data => {
+            //         res.send(data);
+            //     })
+
+            User.find({ "first_name" : "Saurabh" }).then(data => {
+                res.send(data);
             })
         }
     }

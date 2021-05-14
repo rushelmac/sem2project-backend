@@ -1,6 +1,7 @@
 const searchAPI = require('./../api/searchAPI');
 var express = require('express');
 var router = express.Router();
+const User = require("./../models/user-model")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -8,6 +9,6 @@ router.get('/', function(req, res, next) {
 });
 
 // search by name
-router.get('/search/:name', searchAPI().searchName)
+router.get('/search',searchAPI.searchName);
 
 module.exports = router;
