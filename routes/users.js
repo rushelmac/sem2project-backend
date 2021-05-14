@@ -82,6 +82,7 @@ router.get('/confirmation/:token', async (req, res)=>{
     }
 });
 
+// Update user profile route.
 router.put('/:id', async (req, res) =>{
     let { error } = validateUser(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -96,6 +97,7 @@ router.put('/:id', async (req, res) =>{
     res.send(found);
 });
 
+// Delete user.
 router.delete('/:id', async (req, res) => {
     
     const { error } = validateUser(req.body);
