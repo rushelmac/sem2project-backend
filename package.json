@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -16,6 +16,13 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mongoose": "^5.12.8",
+<<<<<<< HEAD
     "nodemailer": "^6.6.0"
+  },
+  "devDependencies": {
+=======
+    "nodemailer": "^6.6.0",
+>>>>>>> 1f37184a9e3cfae059061d72e0041f8db8214a47
+    "nodemon": "^2.0.7"
   }
 }
