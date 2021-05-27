@@ -1,10 +1,13 @@
-const Joi = require('joi');
-Joi.objectId = require('joi-objectid')(Joi);
-const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
-const { string, boolean } = require('joi');
+const Joi       = require('joi'),
+    mongoose    = require('mongoose'),
+    jwt         = require('jsonwebtoken');
 
+// Configure dotenv dependancy to access credentials and private keys 
+require('dotenv').config();
+// I don't know what it does
+Joi.objectId = require('joi-objectid')(Joi);
+
+// Schema for the short profile of user
 const userSchema = new mongoose.Schema({
     first_name:{
         type: String,
@@ -41,13 +44,14 @@ const userSchema = new mongoose.Schema({
         required: true
     }
 });
-
+// Method to get jwt token (From objectID and jwt private key)
 userSchema.methods.genAuthToken = function () {
     const token = jwt.sign({ _id: this._id }, process.env.WC_jwtPrivateKey);
     return token;
 };
+// Creating mongoDB model from defined schema
 const User = mongoose.model('User', userSchema);
-
+// Joi validation
 function validateUser(newUser){
     const schema = Joi.object({
         first_name : Joi.string().min(3).max(100).required(),
@@ -58,7 +62,7 @@ function validateUser(newUser){
     });
     return schema.validate(newUser);
 }
-
+// Joi validation
 function validateParams(params)
 {
     const schema = Joi.object({
