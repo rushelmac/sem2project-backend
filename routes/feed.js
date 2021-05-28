@@ -54,3 +54,17 @@ router.put("/:postID", (req, res) => {
         res.status(200).send(updatedFeed);
     });
 });
+
+// DELETE route. Delete the feed (By author)
+router.delete("/:postID", (req, res) => {
+    Feed.findByIdAndDelete(req.params.postID, (err) => {
+        if(err){
+            return res.status(500).send({
+                message: "There was an error deleting the feed"
+            });
+        }
+        res.status(200).send({
+            message: "Successfully deleted the post." 
+        });
+    });
+});
