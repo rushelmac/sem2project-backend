@@ -1,8 +1,16 @@
 const express   = require("express"),
-    router      = express.Router();
+    router      = express.Router(),
+    Feed        = require("../models/Feed");
 
 // POST route. Create feed
-// GET route. fetch latest feeds. (Take argument from the params, filter feeds by target audience, sort by timestamp)
-// GET route. Fetch the object (Specific by ID/author)
-// UPDATE route. Update the feed (Only by author)
-// DELETE route. Delete the feed (By author)
+router.post("/", (req, res) => {
+    Feed.create(req.body.Feed, (err, createdFeed) => {
+        if(err){
+            return res.status(500).send({
+                message: "Couldn't create database for feed"
+            });
+        }
+        res.status(201).send(createdFeed);
+    });
+});
+
