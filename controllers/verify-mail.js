@@ -12,7 +12,7 @@ const sendMail = (user, token) => {
         to: user.email, // list of receivers
         subject: "OTP authentication: WCE Connects", // Subject line
         text: `Hello ${user.first_name}. Click on the link to verify your email account`, // plain text body
-        html: `<a href="${url}">${url}</a>`
+        html: `<a href="http://localhost:3000/verified">${url}</a>`
     };
     transporter.sendMail(mailBody,(err, info) => {
         if(err){
