@@ -42,3 +42,15 @@ router.get("/:postID", (req, res) => {
         res.status(200).send(foundFeed);
     });
 });
+
+// UPDATE route. Update the feed (Only by author)
+router.put("/:postID", (req, res) => {
+    Feed.findByIDAndUpdate(req.params.postID, req.body.feed, (err, updatedFeed) => {
+        if(err){
+            return res.status(500).send({
+                message: "Internal server error"
+            });
+        }
+        res.status(200).send(updatedFeed);
+    });
+});
