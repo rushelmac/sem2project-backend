@@ -4,7 +4,7 @@ const express   = require('express'),
     bcrypt      = require('bcrypt'),
     _           = require('lodash'),
     Joi         = require('joi'),
-    { User }    = require('../models/user');
+    { User }    = require('../models/User');
 
 // Configure dotenv dependancy to use credentials securely
 require('dotenv').config();
