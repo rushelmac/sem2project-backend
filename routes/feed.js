@@ -14,3 +14,19 @@ router.post("/", (req, res) => {
     });
 });
 
+// GET route. fetch latest feeds. (Take argument from the params, filter feeds by target audience, sort by timestamp)
+router.get("/all/:pageNo", (req, res) => {
+    Feed.findMany();
+});
+
+// GET route. Fetch the object (Specific by author)
+router.get("/author/:authorID", (req, res) => {
+    Feed.findMany({author:req.params.authorID}, (err, authorFeeds) => {
+        if(err){
+            return res.status(500).send({
+                message: "Error finding given author feeds"
+            });
+        }
+        res.status(200).send(authorFeeds);
+    });
+});
