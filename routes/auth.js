@@ -1,15 +1,17 @@
 //LOGIN ENDPOINT  
+const express   = require('express'),
+    router      = express.Router(),
+    bcrypt      = require('bcrypt'),
+    _           = require('lodash'),
+    Joi         = require('joi'),
+    { User }    = require('../models/User');
 
-const express = require('express');
-const bcrypt = require('bcrypt');
-const _= require('lodash');
-const { User } = require('../models/user');
-const router = express.Router();
-router.use(express.json());
-const Joi = require('joi');
-const jwt = require('jsonwebtoken');
+// Configure dotenv dependancy to use credentials securely
 require('dotenv').config();
+// Parse json objects.
+router.use(express.json());
 
+// Create user. (short profile)
 router.post('/' , async (req, res ) =>{
     
     const { error } = validateAuth(req.body);
@@ -26,6 +28,7 @@ router.post('/' , async (req, res ) =>{
     res.send(token);
 });
 
+// Validate user attribute limits
 function validateAuth(req){
 
     const schema = Joi.object({

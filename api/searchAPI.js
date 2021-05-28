@@ -1,6 +1,11 @@
 const { functions } = require("lodash");
+<<<<<<< HEAD
 // const { use } = require("../routes");
 const User = require("./../models/user");
+=======
+// const { use } = require("../routes");
+const User = require("../models/User");
+>>>>>>> e7fb5104353135e256930ededa75b684ba788838
 
 module.exports = {
     searchName: function(req, res, next) {
