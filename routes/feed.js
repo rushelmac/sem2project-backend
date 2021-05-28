@@ -30,3 +30,15 @@ router.get("/author/:authorID", (req, res) => {
         res.status(200).send(authorFeeds);
     });
 });
+
+// GET route. Fetch the object (Specific by postID)
+router.get("/:postID", (req, res) => {
+    Feed.findByID(req.params.postID, (err, foundFeed) => {
+        if(err){
+            return res.status(500).send({
+                message: "Internal server error"
+            });
+        }
+        res.status(200).send(foundFeed);
+    });
+});
