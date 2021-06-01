@@ -1,5 +1,4 @@
 const { functions } = require("lodash");
-const { use } = require("../routes");
 const User = require("./../models/user");
 
 module.exports = {
