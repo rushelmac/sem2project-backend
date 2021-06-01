@@ -6,7 +6,8 @@ const express = require('express'),
   indexRouter = require('./routes/index'),
   usersRouter = require('./routes/users'),
   authRouter  = require('./routes/auth');
-
+  consversationRouter = require('./routes/conversations');
+  messageRouter = require('./routes/messages');
 // var cookieParser = require('cookie-parser');
 // var logger = require('morgan');
 
@@ -44,6 +45,8 @@ app.use(cors());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/conversations', consversationRouter);
+app.use('/message', messageRouter);
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //   next(createError(404));
