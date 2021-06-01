@@ -5,7 +5,7 @@ const express   = require('express'),
     router      = express.Router(),
     jwt         = require('jsonwebtoken'),
     sendMail    = require("../controllers/verify-mail"),
-    { User, validateUser, validateParams } = require('../models/user');
+    { User, validateUser, validateParams } = require('../models/User');
 
 // Allowing the application to read jwt's in the form of json
 router.use(express.json());    

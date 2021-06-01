@@ -1,5 +1,6 @@
-const { functions } = require("lodash");
-const User = require("./../models/user");
+// const { functions } = require("lodash");
+// const { use } = require("../routes");
+const User = require("./../models/User");
 
 module.exports = {
     searchName: function(req, res, next) {
