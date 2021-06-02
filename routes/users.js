@@ -12,8 +12,26 @@ router.use(express.json());
 // For importing jwt private key
 require('dotenv').config();
 
+
+//getid from token
+router.get("/getid", async (req, res) => {
+
+    const token = req.header('x-auth-token');
+    if(!token) return res.status(401).send('Access Denied.No Token Provided.')
+    try {
+        const decoded = jwt.verify(token, process.env.WC_jwtPrivateKey);
+        res.send(decoded._id);
+    } catch (error) {
+        res.status(400).send('Invalid Token.')
+    }
+});
+
 // Route to get all users: Tested, Works fine
 router.get('/', async (req, res) => {
+
+    const token = req.header('x-auth-token');
+    if(!token) return res.status(401).send('Access Denied.No Token Provided.')
+    
     const users = await User.find().sort('first_name');
     res.send(users);
 });
@@ -114,7 +132,6 @@ router.delete('/:id', async (req, res) => {
 router.get("/login", async (req, res)=>{
     res.send("you've successfully logged in");
 });
-
 
 module.exports = router;
 
