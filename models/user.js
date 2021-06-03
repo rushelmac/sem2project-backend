@@ -4,6 +4,7 @@ const Joi       = require('joi'),
 
 // Configure dotenv dependancy to access credentials and private keys 
 require('dotenv').config();
+
 // I don't know what it does
 Joi.objectId = require('joi-objectid')(Joi);
 
@@ -44,24 +45,27 @@ const userSchema = new mongoose.Schema({
         required: true
     }
 });
+
 // Method to get jwt token (From objectID and jwt private key)
 userSchema.methods.genAuthToken = function () {
-    const token = jwt.sign({ _id: this._id }, process.env.WC_jwtPrivateKey);
-    return token;
+    return jwt.sign({ _id: this._id }, process.env.WC_jwtPrivateKey);
 };
+
 // Creating mongoDB model from defined schema
 const User = mongoose.model('User', userSchema);
+
 // Joi validation
 function validateUser(newUser){
     const schema = Joi.object({
         first_name : Joi.string().min(3).max(100).required(),
         last_name : Joi.string().min(3).max(100).required(),
         email : Joi.string().min(10).max(255).required().email(),
-        password : Joi.string().min(8).max(1024).required(),
+        password : Joi.string().min(4).max(1024).required(),
         user_role : Joi.string().required()
     });
     return schema.validate(newUser);
 }
+
 // Joi validation
 function validateParams(params)
 {
