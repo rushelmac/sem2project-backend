@@ -57,29 +57,37 @@ router.get("/:postID", (req, res) => {
 });
 
 // UPDATE route. Update the feed (Only by author)
-router.put("/:postID", (req, res) => {
-    Feed.findByIDAndUpdate(req.params.postID, req.body.feed, (err, updatedFeed) => {
+router.put("/:postID", async (req, res) => {
+    await Feed.findOneAndUpdate({_id:req.params.postID, author:req.user.id}, req.body.feed, (err, updatedFeed) => {
         if(err){
             return res.status(500).send({
                 message: "Internal server error"
             });
         }
-        res.status(200).send(updatedFeed);
+        return res.status(200).send(updatedFeed);
     });
+
+    res.status(401).send({
+        message: "You are not authorized"
+    })
 });
 
 // DELETE route. Delete the feed (By author)
-router.delete("/:postID", (req, res) => {
-    Feed.findByIdAndDelete(req.params.postID, (err) => {
+router.delete("/:postID", async (req, res) => {
+    Feed.findOneAndDelete({_id:req.params.postID, author:req.user.id}, (err) => {
         if(err){
             return res.status(500).send({
                 message: "There was an error deleting the feed"
             });
         }
-        res.status(200).send({
+        return res.status(200).send({
             message: "Successfully deleted the post." 
         });
     });
+
+    res.status(401).send({
+        message: "You are not authorized"
+    })
 });
 
 module.exports = router;
