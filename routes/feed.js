@@ -33,8 +33,8 @@ router.get("/all/:pageNo", (req, res) => {
 });
 
 // GET route. Fetch the object (Specific by author)
-router.get("/author/:authorID", (req, res) => {
-    Feed.findMany({author:req.params.authorID}, (err, authorFeeds) => {
+router.get("/author", (req, res) => {
+    Feed.findMany({author:req.user.id}, (err, authorFeeds) => {
         if(err){
             return res.status(500).send({
                 message: "Error finding given author feeds"
