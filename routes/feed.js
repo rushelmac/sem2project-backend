@@ -1,6 +1,7 @@
 const express   = require("express"),
     router      = express.Router(),
-    Feed        = require("../models/Feed");
+    {Feed}      = require("../models/Feed"),
+    { User }    = require("../models/User");
 
 // POST route. Create feed
 router.post("/", (req, res) => {
@@ -16,7 +17,19 @@ router.post("/", (req, res) => {
 
 // GET route. fetch latest feeds. (Take argument from the params, filter feeds by target audience, sort by timestamp)
 router.get("/all/:pageNo", (req, res) => {
-    Feed.findMany();
+    // Get the user id from request and fetch user object
+    const client = User.findById(req.user.id);
+    
+    // Check its user type and branch (Currently branch and year not available in user model)
+    // Fetch a range of feed according to pageNo (Currently sending all the feeds)  
+    Feed.findMany({$where:{target_audience:client.user_role}}).toArray((err, foundFeeds) => {
+        if(err){
+            res.status(500).send({
+                message: "Could'nt fetch the feeds"
+            })
+        }
+        res.status(200).send(foundFeeds);
+    });
 });
 
 // GET route. Fetch the object (Specific by author)
@@ -68,3 +81,5 @@ router.delete("/:postID", (req, res) => {
         });
     });
 });
+
+module.exports = router;
