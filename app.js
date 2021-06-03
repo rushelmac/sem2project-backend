@@ -5,9 +5,10 @@ const express = require('express'),
   cors        = require('cors'),
   indexRouter = require('./routes/index'),
   usersRouter = require('./routes/users'),
-  authRouter  = require('./routes/auth');
-  consversationRouter = require('./routes/conversations');
-  messageRouter = require('./routes/messages');
+  authRouter  = require('./routes/auth'),
+  consversationRouter = require('./routes/conversations'),
+  messageRouter       = require('./routes/messages'),
+  feedsRouter  = require('./routes/feed');
 // var cookieParser = require('cookie-parser');
 // var logger = require('morgan');
 
@@ -47,6 +48,9 @@ app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/conversations', consversationRouter);
 app.use('/messages', messageRouter);
+// Routes for feeds CRUD
+app.use('/feeds', feedsRouter);
+
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //   next(createError(404));
