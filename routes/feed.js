@@ -2,7 +2,7 @@ const express   = require("express"),
     router      = express.Router(),
     {Feed}      = require("../models/Feed"),
     { User }    = require("../models/User");
-
+// #### Tested: Works fine
 // POST route. Create feed
 router.post("/", (req, res) => {
     Feed.create(req.body.Feed, (err, createdFeed) => {
