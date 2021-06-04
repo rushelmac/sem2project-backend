@@ -28,10 +28,6 @@ router.get("/getid", async (req, res) => {
 
 // Route to get all users: Tested, Works fine
 router.get('/', async (req, res) => {
-
-    const token = req.header('x-auth-token');
-    if(!token) return res.status(401).send('Access Denied.No Token Provided.')
-    
     const users = await User.find().sort('first_name');
     res.send(users);
 });
