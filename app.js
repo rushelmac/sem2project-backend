@@ -8,7 +8,8 @@ const express = require('express'),
   authRouter  = require('./routes/auth'),
   consversationRouter = require('./routes/conversations'),
   messageRouter       = require('./routes/messages'),
-  feedsRouter  = require('./routes/feed');
+  feedsRouter = require('./routes/feed'),
+  auth        = require('./middleware/auth');
 // var cookieParser = require('cookie-parser');
 // var logger = require('morgan');
 
@@ -42,11 +43,19 @@ mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedT
 // Allowing cross origin requests
 app.use(cors());
 
-// Using route modules
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// Contains route to get token from login credentials
 app.use('/auth', authRouter);
+
+// Using jwt auth for every route below
+app.use(auth);
+
+// Contains search query routes
+app.use('/', indexRouter);
+// Contains single and multi user CRUD & mail verification.
+app.use('/users', usersRouter);
+// I don't know what is contains
 app.use('/conversations', consversationRouter);
+// And this on too
 app.use('/messages', messageRouter);
 // Routes for feeds CRUD
 app.use('/feeds', feedsRouter);
