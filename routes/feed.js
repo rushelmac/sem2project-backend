@@ -14,22 +14,26 @@ router.post("/", (req, res) => {
         res.status(201).send(createdFeed);
     });
 });
-
+// #### Tested: Works fine
 // GET route. fetch latest feeds. (Take argument from the params, filter feeds by target audience, sort by timestamp)
-router.get("/all/:pageNo", (req, res) => {
+router.get("/all/:pageNo", async (req, res) => {
     // Get the user id from request and fetch user object
-    const client = User.findById(req.user.id);
-    
+    const client    = await User.findById(req.user._id);
+    if(!client) return res.status(404).send({message:"Couln't find your user object"});
+    // Get the page number and objects per page 
+    const pageNum   = parseInt(req.params.pageNo);
+    const itemsPerPage  = parseInt(req.query.itemsPerPage);
     // Check its user type and branch (Currently branch and year not available in user model)
-    // Fetch a range of feed according to pageNo (Currently sending all the feeds)  
-    Feed.findMany({$where:{target_audience:client.user_role}}).toArray((err, foundFeeds) => {
-        if(err){
-            res.status(500).send({
-                message: "Could'nt fetch the feeds"
-            })
-        }
-        res.status(200).send(foundFeeds);
-    });
+    // Fetch a range of feed according to pageNo 
+    await Feed.find({"target_audience":client.user_role})
+    .sort({"createdAt":-1})
+    .limit(itemsPerPage)
+    .skip(itemsPerPage * (pageNum-1)) 
+    .then((results) => {
+        return res.status(200).send(results);
+    }).catch((err) => {
+        return res.status(500).send(err);
+    })
 });
 
 // GET route. Fetch the object (Specific by author)
