@@ -9,9 +9,9 @@ const sendMail = (user, token) => {
     // The mail body
     let mailBody = {
         from: '"WCE Connects" <rushishelke633@gmail.com>', // sender address
-        to: user.email, // list of receivers
+        to: user.credentials.email, // list of receivers
         subject: "OTP authentication: WCE Connects", // Subject line
-        text: `Hello ${user.first_name}. Click on the link to verify your email account`, // plain text body
+        text: `Hello ${user.info.first_name}. Click on the link to verify your email account`, // plain text body
         html: `<a href="http://localhost:3000/verified">${url}</a>`
     };
     transporter.sendMail(mailBody,(err, info) => {
