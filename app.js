@@ -8,6 +8,7 @@ const express = require('express'),
   authRouter  = require('./routes/auth'),
   consversationRouter = require('./routes/conversations'),
   messageRouter       = require('./routes/messages'),
+  userProfileRoutes   = require('./routes/user-profile'),
   feedsRouter = require('./routes/feed'),
   auth        = require('./middleware/auth');
 // var cookieParser = require('cookie-parser');
@@ -59,6 +60,8 @@ app.use('/conversations', consversationRouter);
 app.use('/messages', messageRouter);
 // Routes for feeds CRUD
 app.use('/feeds', feedsRouter);
+// Routes for user profile CRUD
+app.use('./user-profile', userProfileRoutes);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
