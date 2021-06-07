@@ -61,7 +61,7 @@ app.use('/messages', messageRouter);
 // Routes for feeds CRUD
 app.use('/feeds', feedsRouter);
 // Routes for user profile CRUD
-app.use('./user-profile', userProfileRoutes);
+app.use('/userProfile', userProfileRoutes);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
