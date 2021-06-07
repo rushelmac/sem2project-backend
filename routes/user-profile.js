@@ -21,8 +21,15 @@ router.get('/user-profile/:id', (req, res) => {
         res.send(foundProfile);
     });
 });
+
 // Update
-router.put('/user-profile');
+router.put('/user-profile',  (req, res) => {
+    userProfile.findOneAndUpdate({"user_id": req.user._id}, req.body, (err, updatedProfile) => {
+        if(err) return res.send(err);
+        res.status(200).send({message: "Profile updated", updatedProfile});
+    });
+});
+
 // Delete
 router.delete('/user-profile');
 
