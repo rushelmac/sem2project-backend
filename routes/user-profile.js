@@ -31,6 +31,11 @@ router.put('/user-profile',  (req, res) => {
 });
 
 // Delete
-router.delete('/user-profile');
+router.delete('/user-profile', (req, res) => {
+    userProfile.findOneAndDelete({"user_id": req.user._id}, (err) => {
+        if(err) return res.send(err);
+        res.status(200).send({message: "Profile Deleted"});
+    });
+});
 
 module.exports = router;
