@@ -54,11 +54,13 @@ router.post('/register' , async (req, res ) => {
         }
     };
 
-    newUser = new User(UserObj);
-    const salt = await bcrypt.genSalt(5);
-    newUser.credentials.password = await bcrypt.hash(req.body.password, salt); 
-    newUser = await newUser.save();
-    console.log(UserObj);
+    try{
+
+        newUser = new User(UserObj);
+        const salt = await bcrypt.genSalt(5);
+        newUser.credentials.password = await bcrypt.hash(req.body.password, salt);
+        newUser = await newUser.save();
+    }catch(e){ console.log(e)}
 
     // Async function to send mail.
     jwt.sign(
