@@ -30,9 +30,18 @@ router.get('/', async (req, res) => {
     res.send(users);
 });
 
-// Route to get a specific user by id. Tested, Works fine
+// Route to get a current logged in user. Tested, Works fine
 router.get('/current', async (req, res) => {
     const found = await User.findById(req.user._id).select("info");
+    if(!found) return res.status(404).send('User not found with given ID');
+    res.send(found);
+});
+
+// Route to get a user with params as id.
+router.get('/:id', async (req, res) =>{
+    const paramCheck = validateParams(req.params);
+    if(paramCheck.error) return res.status(400).send(paramCheck.error.details[0].message);
+    const found = await User.findById(req.params.id);
     if(!found) return res.status(404).send('User not found with given ID');
     res.send(found);
 });
