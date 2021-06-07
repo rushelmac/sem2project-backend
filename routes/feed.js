@@ -37,15 +37,28 @@ router.get("/all/:pageNo", async (req, res) => {
 });
 
 // GET route. Fetch the object (Specific by author)
-router.get("/author", (req, res) => {
-    Feed.findMany({author:req.user.id}, (err, authorFeeds) => {
-        if(err){
-            return res.status(500).send({
-                message: "Error finding given author feeds"
-            });
-        }
-        res.status(200).send(authorFeeds);
-    });
+router.get("/author/:id", async (req, res) => {
+    // Find request client object to find it's role
+    const client    = await User.findById(req.user._id);
+    if(!client) return res.status(404).send({message:"Couln't find your user object"});
+
+    const query     = {
+        "author":req.params.id
+    };
+
+    // if the author is client itself, return all posts else filter by target audience
+    console.log("Reuest from :"+req.user._id+" for :"+req.params.id);
+    if(req.user._id != req.params.id){
+        query.target_audience = client.user_role;
+    }
+    console.log("query :"+query.author+" "+query.target_audience);
+    await Feed.find({query})
+    .sort({"createdAt":-1})
+    .then((results) => {
+        return res.status(200).send(results);
+    }).catch((err) => {
+        return res.status(500).send(err);
+    })
 });
 
 // GET route. Fetch the object (Specific by postID)
