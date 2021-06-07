@@ -33,11 +33,12 @@ router.get('/', async (req, res) => {
 });
 
 // Route to get a specific user by id. Tested, Works fine
-router.get('/:id', async (req, res) => {
+router.get('/current', async (req, res) => {
     const { error } = validateParams(req.params);
     if(error) return res.status(400).send(error.details[0].message);
 
-    const found = await User.findById(req.params.id);
+
+    const found = await User.findById(req.user._id);
     if(!found) return res.status(404).send('User not found with given ID');
     res.send(found);
 });
