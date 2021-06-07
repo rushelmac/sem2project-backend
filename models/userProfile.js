@@ -2,7 +2,7 @@ const  mongoose  = require("mongoose");
 
 const userProfileSchema = new mongoose.Schema({
     user_id:{
-        type: mongoose.Schema.Type.object_id
+        type: mongoose.Schema.Types.ObjectId
     },
     professional_info: [
         {
