@@ -25,7 +25,7 @@ router.get("/all/:pageNo", async (req, res) => {
     const itemsPerPage  = parseInt(req.query.itemsPerPage);
     // Check its user type and branch (Currently branch and year not available in user model)
     // Fetch a range of feed according to pageNo 
-    await Feed.find({"target_audience":client.info.user_role})
+    await Feed.find({})
     .sort({"createdAt":-1})
     .limit(itemsPerPage)
     .skip(itemsPerPage * (pageNum-1)) 
