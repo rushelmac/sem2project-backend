@@ -58,6 +58,9 @@ const userSchema = new mongoose.Schema({
             required: true,
             minlength:1,
             maxlength:100
+        },
+        profile_picture: {
+            type: String,
         }
     }
 });
