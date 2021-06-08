@@ -5,7 +5,7 @@ const transporter = nodemailer.createTransport(transporter_config);
 
 // Function to send OTP to the user. 
 const sendMail = (user, token) => {
-   const url = `http://localhost:5000/users/confirmation/${token}`;
+   const url = `http://localhost:5000/auth/confirmation/${token}`;
     // The mail body
     let mailBody = {
         from: '"WCE Connects" <rushishelke633@gmail.com>', // sender address
