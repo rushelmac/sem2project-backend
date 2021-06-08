@@ -5,25 +5,25 @@ router      = express.Router(),
 
 
 // Create
-router.post('/user-profile', (req, res) => {
+router.post('/', (req, res) => {
     userProfile.create(req.body, (err, createdProfile) => {
         if(err) return res.status(500).send({message: "Couldn't create user profile"});
-        createdProfile.user_id = req.user._id;
+        createdProfile.user_id = req.body._id;
         createdProfile.save();
         res.status(200).send({message: "Profile created"});
     });
 });
 
 // Read
-router.get('/user-profile/:id', (req, res) => {
-    userProfile.findOne({"user_id":req.params.id}, (err, foundProfile) => {
+router.get('/current', (req, res) => {
+    userProfile.findOne({"user_id":req.user._id}, (err, foundProfile) => {
         if(err) return res.status(204).send(err);
         res.send(foundProfile);
     });
 });
 
 // Update
-router.put('/user-profile',  (req, res) => {
+router.put('/',  (req, res) => {
     userProfile.findOneAndUpdate({"user_id": req.user._id}, req.body, (err, updatedProfile) => {
         if(err) return res.send(err);
         res.status(200).send({message: "Profile updated", updatedProfile});
@@ -31,7 +31,7 @@ router.put('/user-profile',  (req, res) => {
 });
 
 // Delete
-router.delete('/user-profile', (req, res) => {
+router.delete('/', (req, res) => {
     userProfile.findOneAndDelete({"user_id": req.user._id}, (err) => {
         if(err) return res.send(err);
         res.status(200).send({message: "Profile Deleted"});
