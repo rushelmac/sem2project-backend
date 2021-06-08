@@ -41,7 +41,7 @@ router.get('/current', async (req, res) => {
 router.get('/:id', async (req, res) =>{
     const paramCheck = validateParams(req.params);
     if(paramCheck.error) return res.status(400).send(paramCheck.error.details[0].message);
-    const found = await User.findById(req.params.id);
+    const found = await User.findById(req.params.id).select("info");
     if(!found) return res.status(404).send('User not found with given ID');
     res.send(found);
 });
