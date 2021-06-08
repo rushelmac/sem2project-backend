@@ -99,7 +99,7 @@ router.get('/confirmation/:token', async (req, res)=>{
         const {user:{id}} = jwt.verify(req.params.token, process.env.WC_jwtPrivateKey);
         await User.updateOne({_id:id}, {$set:{"credentials.confirmed": true}});
         res.header('x-auth-token', req.params.token);
-        res.status(201).send({message:"Email verified"});
+        res.status(201).redirect("http://127.0.0.1:3000/verified");
 
         //After Email Confirmation make empty userProfile with id
         // {
