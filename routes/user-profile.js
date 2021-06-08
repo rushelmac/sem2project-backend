@@ -22,6 +22,14 @@ router.get('/current', (req, res) => {
     });
 });
 
+//Read by another
+router.get('/:id', (req, res) => {
+    userProfile.findOne({"user_id":req.params.id}, (err, foundProfile) => {
+        if(err) return res.status(204).send(err);
+        res.send(foundProfile);
+    });
+});
+
 // Update
 router.put('/',  (req, res) => {
     userProfile.findOneAndUpdate({"user_id": req.user._id}, req.body, (err, updatedProfile) => {
