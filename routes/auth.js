@@ -100,6 +100,30 @@ router.get('/confirmation/:token', async (req, res)=>{
         await User.updateOne({_id:id}, {$set:{"credentials.confirmed": true}});
         res.header('x-auth-token', req.params.token);
         res.status(201).send({message:"Email verified"});
+
+        //After Email Confirmation make empty userProfile with id
+        // {
+        //     "user_id": "",
+        //     "prefessional_info":[],
+        //     "educational_info":[],
+        //     "personal_info":{
+        //         "about_me":"",
+        //         "birthdate":""
+        //     },
+        //     "contact_info":{
+        //         "mobile_no":"",
+        //         "email":""
+        //     },
+        //     "profiles":{
+        //         "linkedin":"",
+        //         "github":"",
+        //         "twitter":"",
+        //         "youtube":"",
+        //         "facebook":"",
+        //         "instagram":""
+        //     }
+        // }
+
     } catch(error){
         res.status(500).send({message: error});
     }
