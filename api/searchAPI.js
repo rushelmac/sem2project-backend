@@ -8,8 +8,8 @@ module.exports = {
         User.User.find(
             { $or: 
                 [
-                    {first_name: {$regex: searchedField,$options:'$i'}},
-                    {last_name: {$regex: searchedField,$options:'$i'}}
+                    {"info.first_name": {$regex: searchedField,$options:'$i'}},
+                    {"info.last_name": {$regex: searchedField,$options:'$i'}}
                 ] 
             }
         ).then(data => {
@@ -18,7 +18,7 @@ module.exports = {
     },
     searchRole: function(req, res, next) {
         const searchedField = req.query.name;
-        User.User.find({user_role:searchedField})
+        User.User.find({"info.user_role":searchedField})
             .then(data => {
                 res.send(data);
             }) 
