@@ -54,7 +54,7 @@ app.use(auth);
 app.use('/', indexRouter);
 // Contains single and multi user CRUD & mail verification.
 app.use('/users', usersRouter);
-// I don't know what is contains
+// I don't know what it contains
 app.use('/conversations', consversationRouter);
 // And this on too
 app.use('/messages', messageRouter);
