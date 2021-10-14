@@ -49,13 +49,13 @@ const userSchema = new mongoose.Schema({
         },
         current_post: {
             type: String,
-            required: true,
+            // required: true,
             minlength:1,
             maxlength:100
         },
         current_organization: {
             type: String,
-            required: true,
+            // required: true,
             minlength:1,
             maxlength:100
         },
