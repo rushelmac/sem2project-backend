@@ -6,6 +6,7 @@ const express = require('express'),
   indexRouter = require('./routes/index'),
   usersRouter = require('./routes/users'),
   authRouter  = require('./routes/auth'),
+  adminRouter = require('./routes/admin'),
   consversationRouter = require('./routes/conversations'),
   messageRouter       = require('./routes/messages'),
   userProfileRoutes   = require('./routes/user-profile'),
@@ -62,6 +63,8 @@ app.use('/messages', messageRouter);
 app.use('/feeds', feedsRouter);
 // Routes for user profile CRUD
 app.use('/userProfile', userProfileRoutes);
+// Routes for admin
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
