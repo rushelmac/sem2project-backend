@@ -24,52 +24,15 @@ const express   = require('express'),
 
     var upload = multer({ //multer settings
                     storage: storage,
-                    // fileFilter : function(req, file, callback) { //file filter
-                    //     if (['xls', 'xlsx'].indexOf(file.originalname.split('.')[file.originalname.split('.').length-1]) === -1) {
-                    //         return callback(new Error('Wrong extension type'));
-                    //     }
-                    //     callback(null, true);
-                    // }
+                    fileFilter : function(req, file, callback) { //file filter
+                        if (['xls', 'xlsx'].indexOf(file.originalname.split('.')[file.originalname.split('.').length-1]) === -1) {
+                            return callback(new Error('Wrong extension type'));
+                        }
+                        callback(null, true);
+                    }
                 }).single('file');
 
-    // /** API path that will upload the files */
-    // router.post('/upload', function(req, res) {
-    //     var exceltojson;
-    //     upload(req,res,function(err){
-    //         if(err){
-    //              res.json({error_code:1,err_desc:err});
-    //              return;
-    //         }
-    //         /** Multer gives us file info in req.file object */
-    //         if(!req.file){
-    //             res.json({error_code:1,err_desc:"No file passed"});
-    //             return;
-    //         }
-
-    //         // Check the extension of the incoming file and use the appropriate module
-    //         if(req.file.originalname.split('.')[req.file.originalname.split('.').length-1] === 'xlsx'){
-    //             exceltojson = xlsxtojson;
-    //         } else {
-    //             exceltojson = xlstojson;
-    //         }
-    //         try {
-    //             exceltojson({
-    //                 input: req.file.path,
-    //                 output: null, //since we don't need output.json
-    //                 lowerCaseHeaders:true
-    //             }, function(err,result){
-    //                 if(err) {
-    //                     return res.json({error_code:1,err_desc:err, data: null});
-    //                 }
-    //                 res.json({error_code:0,err_desc:null, data: result});
-    //             });
-    //         } catch (e){
-    //             res.json({error_code:1,err_desc:"Corupted excel file"});
-    //         }
-    //     });
-    // });
-
-    /** Method to handle the form submit */
+    // Route to upload xcel database to mongo
     router.post('/upload', function(req, res) {
         let excel2json, newUser;
         upload(req,res,function(err){
@@ -116,49 +79,50 @@ const express   = require('express'),
                         databaseObjects.push(databaseObject);
                     });
                     console.log(result);
+                    res.status(200).json(databaseObjects);
 
-                    const not_sent = [];
+                    // const not_sent = [];
 
-                    await databaseObjects.forEach(async user=>{
-                        try{
-                            newUser = new User(user);
-                            const salt = await bcrypt.genSalt(5);
-                            newUser.credentials.password = await bcrypt.hash(user.credentials.password, salt);
-                            newUser = await newUser.save();
-                        }catch(e){ console.log(e)};
+                    // await databaseObjects.forEach(async user=>{
+                    //     try{
+                    //         newUser = new User(user);
+                    //         const salt = await bcrypt.genSalt(5);
+                    //         newUser.credentials.password = await bcrypt.hash(user.credentials.password, salt);
+                    //         newUser = await newUser.save();
+                    //     }catch(e){ console.log(e)};
 
-                        // Async function to send mail.
-                        jwt.sign(
-                            {
-                                user: _.pick(newUser, 'id'),
-                            },
-                            process.env.WC_jwtPrivateKey,
-                            {
-                                expiresIn: '1d'
-                            },
-                            (error, emailToken) => {
-                                if(error){
-                                    res.status(500).send({
-                                        message: "Failed to sign jwt token"
-                                    });
-                                }
-                                try{
-                                    sendMail(user, emailToken);
-                                    res.status(202).send({
-                                        message: "You have been registered to our portal 'WCE-Connects'. Please verify your email by clicking on the link we just mailed you.\nIf you think this is a mistake, bade bade shehre me aisi choti choti batein hoti rehti hai " + user.credentials.name
-                                    });
-                                }catch(err){
-                                    // res.status(500).send({message: "Couln't process your request"});
-                                    not_sent.push(user.credentials.email)
-                                }
-                            }
-                        );
-                    });
-                    // res.json(databaseObjects);
-                    res.status(200).json({
-                        msg : "Emails sent",
-                        exceptions: not_sent
-                    })
+                    //     // Async function to send mail.
+                    //     jwt.sign(
+                    //         {
+                    //             user: _.pick(newUser, 'id'),
+                    //         },
+                    //         process.env.WC_jwtPrivateKey,
+                    //         {
+                    //             expiresIn: '1d'
+                    //         },
+                    //         (error, emailToken) => {
+                    //             if(error){
+                    //                 res.status(500).send({
+                    //                     message: "Failed to sign jwt token"
+                    //                 });
+                    //             }
+                    //             try{
+                    //                 sendMail(user, emailToken);
+                    //                 res.status(202).send({
+                    //                     message: "You have been registered to our portal 'WCE-Connects'. Please verify your email by clicking on the link we just mailed you.\nIf you think this is a mistake, bade bade shehre me aisi choti choti batein hoti rehti hai " + user.credentials.name
+                    //                 });
+                    //             }catch(err){
+                    //                 // res.status(500).send({message: "Couln't process your request"});
+                    //                 not_sent.push(user.credentials.email)
+                    //             }
+                    //         }
+                    //     );
+                    // });
+                    // res.status(200).json({
+                    //     msg : "Emails sent",
+                    //     exceptions: not_sent
+                    // })
+
                 // Upload to database
                 }
             });
