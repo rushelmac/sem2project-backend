@@ -7,3 +7,5 @@ yarn.lock
 .env
 
 personalTokens.json
+
+uploads
