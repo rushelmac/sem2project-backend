@@ -62,8 +62,11 @@ const express   = require('express'),
                 } else {
                     const databaseObjects=[];
                     
-                    result.forEach(user => {
-                        const databaseObject = {
+                    await result.forEach(async user => {      
+                        // console.log(user)                  
+
+                        // Convert it to defined user model structure
+                        let databaseObject = {
                             credentials: {
                                 email:user.email_id || null,
                                 password:user.email_id || null
@@ -76,25 +79,53 @@ const express   = require('express'),
                                 current_organization: null,
                             }
                         };
+                        const salt = await bcrypt.genSalt(5);
+                        databaseObject.credentials.password = await bcrypt.hash(databaseObject.credentials.password, salt);
+                        // console.log(databaseObject)
+
+                        // Pushing user object into the array
                         databaseObjects.push(databaseObject);
+
+                        // Send mail to every user
+                        console.log("sending mail for" + databaseObject);
+                        jwt.sign(
+                            {
+                                user: _.pick(databaseObject, 'email'),
+                            },
+                            process.env.WC_jwtPrivateKey,
+                            {
+                                expiresIn: '1d'
+                            },
+                            (error, emailToken) => {
+                                if(error){
+                                    res.status(500).send({
+                                        message: "Failed to sign jwt token"
+                                    });
+                                }
+                                try{
+                                    sendMail(databaseObject, emailToken);
+                                    // res.status(202).send({
+                                    //     message: "Please verify your email by clicking on the link we just mailed you"
+                                    // });
+                                }catch(err){
+                                    console.log(err);
+                                    not_sent.push(databaseObject.credentials.email);
+                                }
+                            }
+                        );
                     });
-                    console.log(result);
-                    res.status(200).json(databaseObjects);
+                    console.log(databaseObjects);
+                    
+                    //Adding excel sheet data to database. 
+                    await User.insertMany(databaseObjects);
 
-                    // const not_sent = [];
+                    const not_sent = [];
 
-                    // await databaseObjects.forEach(async user=>{
-                    //     try{
-                    //         newUser = new User(user);
-                    //         const salt = await bcrypt.genSalt(5);
-                    //         newUser.credentials.password = await bcrypt.hash(user.credentials.password, salt);
-                    //         newUser = await newUser.save();
-                    //     }catch(e){ console.log(e)};
-
-                    //     // Async function to send mail.
+                    // await databaseObjects.forEach(object=>{
+                    //     console.log("sending mail for" + object);
                     //     jwt.sign(
                     //         {
-                    //             user: _.pick(newUser, 'id'),
+                    //             user: _.pick(object, 'id'),
                     //         },
                     //         process.env.WC_jwtPrivateKey,
                     //         {
@@ -107,23 +138,22 @@ const express   = require('express'),
                     //                 });
                     //             }
                     //             try{
-                    //                 sendMail(user, emailToken);
+                    //                 sendMail(object, emailToken);
                     //                 res.status(202).send({
-                    //                     message: "You have been registered to our portal 'WCE-Connects'. Please verify your email by clicking on the link we just mailed you.\nIf you think this is a mistake, bade bade shehre me aisi choti choti batein hoti rehti hai " + user.credentials.name
+                    //                     message: "Please verify your email by clicking on the link we just mailed you"
                     //                 });
                     //             }catch(err){
-                    //                 // res.status(500).send({message: "Couln't process your request"});
-                    //                 not_sent.push(user.credentials.email)
+                    //                 console.log(err);
+                    //                 not_sent.push(object.credentials.email);
                     //             }
                     //         }
                     //     );
                     // });
-                    // res.status(200).json({
-                    //     msg : "Emails sent",
-                    //     exceptions: not_sent
-                    // })
-
-                // Upload to database
+                          
+                    console.log("Not sent mails :-" + not_sent);
+                    res.status(200).json({
+                        msg : "Emails sent"
+                    });
                 }
             });
         });
