@@ -32,10 +32,15 @@ app.use(express.json());
 
 //databases connection
 const uri = `mongodb+srv://${process.env.Database_Username}:${process.env.Database_Password}@cluster0.jg9l3.mongodb.net/WC-Storage?retryWrites=true&w=majority`;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
-.then(() => console.log('Connected to MongoDB...'))
-.catch(err => console.error('Failed to connect...'));
 
+const connectDB = async () => {
+  await mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB...'))
+  .catch(err => console.error('Failed to connect...' + err));
+};
+
+// use as a function        
+connectDB();
 
 // app.use(logger('dev'));
 // app.use(express.urlencoded({ extended: false }));
