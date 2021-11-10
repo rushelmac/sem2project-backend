@@ -23,7 +23,7 @@ router.post('/' , async (req, res ) =>{
     if(!newUser) return res.status(400).send('Invalid Email or Password');
     if(!newUser.credentials.confirmed) return res.status(400).send('Please Verify Your Email');
 
-    const validPass = await bcrypt.compare(req.body.password, newUser.credentials.password);
+    const validPass = await bcrypt.compare(req.body.password || req.body.email, newUser.credentials.password);
     if(!validPass) return res.status(400).send('Invalid Email or Password'); 
     
     const token = newUser.genAuthToken();    
@@ -70,7 +70,7 @@ router.post('/register' , async (req, res ) => {
 
         newUser = new User(UserObj);
         const salt = await bcrypt.genSalt(5);
-        newUser.credentials.password = await bcrypt.hash(req.body.password, salt);
+        newUser.credentials.password = await bcrypt.hash(req.body.password || req.body.email, salt);
         newUser = await newUser.save();
     }catch(e){ console.log(e)}
 
