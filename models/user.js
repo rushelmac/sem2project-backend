@@ -59,64 +59,46 @@ const userSchema = new mongoose.Schema({
             minlength:1,
             maxlength:100
         },
+        current_city: {
+            type: String,
+            // required: true,
+        },
         profile_picture: {
             type: String,
         },
         alt_email:{
             type: String,
             unique:true,
-            minlength:10,
-            maxlength:255
         },
         phone_number:{
             type: String,
-            minlength:10,
-            maxlength:10
         },
         alt_phone_number:{
             type: String,
-            minlength:10,
-            maxlength:10
         },
         linkedin_url:{
             type: String,
-            minlength:10,
-            maxlength:100
         },
         github_url:{
             type: String,
-            minlength:10,
-            maxlength:100
         },
         facebook_url:{
             type: String,
-            minlength:10,
-            maxlength:100
         },
         twitter_url:{
             type: String,
-            minlength:10,
-            maxlength:100
         },
         instagram_url:{
             type: String,
-            minlength:10,
-            maxlength:100
         },
         website_url:{
             type: String,
-            minlength:10,
-            maxlength:100
         },
         about_me:{
             type: String,
-            minlength:10,
-            maxlength:1000
         },
         skills:{
             type: String,
-            minlength:10,
-            maxlength:1000
         }
     }
 });
