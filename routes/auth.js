@@ -51,6 +51,7 @@ router.post('/register' , async (req, res ) => {
             user_role: req.body.user_role, 
             current_post:req.body.current_post, 
             current_organization: req.body.current_organization,
+            current_city: req.body.city,
             alt_email: req.body.alt_email || "",
             phone_number: req.body.phone_number,
             alt_phone_number: req.body.alt_phone_number || "",
