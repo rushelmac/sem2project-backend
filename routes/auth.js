@@ -50,20 +50,7 @@ router.post('/register' , async (req, res ) => {
             last_name:req.body.last_name, 
             user_role: req.body.user_role, 
             current_post:req.body.current_post, 
-            current_organization: req.body.current_organization,
-            current_city: req.body.city,
-            alt_email: req.body.alt_email || "",
-            phone_number: req.body.phone_number,
-            alt_phone_number: req.body.alt_phone_number || "",
-            linkedin_url: req.body.linkedin_url || "",
-            github_url: req.body.github_url || "",
-            facebook_url: req.body.facebook_url || "",
-            twitter_url: req.body.twitter_url || "",
-            instagram_url: req.body.instagram_url || "",
-            website_url: req.body.website_url || "",
-            about_me: req.body.about_me || "",
-            skills: req.body.skills || "",
-            profile_picture: req.body.profile_picture || "",
+            current_organization: req.body.current_organization
         }
     };
 
