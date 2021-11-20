@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema({
             enum: ['student', 'teacher', 'alumni'],
             required: true
         },
-        current_post: {
+        current_post: { // It includes the array element of professional info from userProfile.
             type: String,
             // required: true,
             minlength:1,
@@ -59,46 +59,73 @@ const userSchema = new mongoose.Schema({
             minlength:1,
             maxlength:100
         },
-        current_city: {
-            type: String,
-            // required: true,
-        },
-        profile_picture: {
-            type: String,
-        },
-        alt_email:{
-            type: String,
-            unique:true,
-        },
-        phone_number:{
-            type: String,
-        },
-        alt_phone_number:{
-            type: String,
-        },
-        linkedin_url:{
-            type: String,
-        },
-        github_url:{
-            type: String,
-        },
-        facebook_url:{
-            type: String,
-        },
-        twitter_url:{
-            type: String,
-        },
-        instagram_url:{
-            type: String,
-        },
-        website_url:{
-            type: String,
-        },
-        about_me:{
-            type: String,
-        },
-        skills:{
-            type: String,
+    },
+    activities :{
+        spoc: {
+            type: Boolean,
+            default: false},
+        talks_and_meets: {
+            type: Boolean,
+            default: false},
+        employability_assistance: {
+            type: Boolean,
+            default: false},
+        mentorship: {
+            type: Boolean,
+            default: false},
+        portal: {
+            type: Boolean,
+            default: false},
+        curriculum_revamping: {
+            type: Boolean,
+            default: false},
+        faculty_alumni_workshops: {
+            type: Boolean,
+            default: false},
+        annual_alumni_meet: {
+            type: Boolean,
+            default: false},
+        sponsored_projects: {
+            type: Boolean,
+            default: false},
+        awards: {
+            type: Boolean,
+            default: false},
+        modernization_of_labs: {
+            type: Boolean,
+            default: false},
+        industrial_visits: {
+            type: Boolean,
+            default: false},
+        internships: {
+            type: Boolean,
+            default: false},
+        testing_and_consultancy: {
+            type: Boolean,
+            default: false},
+        involvement_in_evaluation_process: {
+            type: Boolean,
+            default: false},
+        icc: {
+            type: Boolean,
+            default: false},
+        industry_institute_interaction: {
+            type: Boolean,
+            default: false},
+        soft_skills_training: {
+            type: Boolean,
+            default: false},
+        bos: {
+            type: Boolean,
+            default: false},
+        helping_student_activities: {
+            type: Boolean,
+            default: false},
+        felicitation_of_distinguished_alumni: {
+            type: Boolean,
+            default: false},
+        description: {
+            type: String
         }
     }
 });
