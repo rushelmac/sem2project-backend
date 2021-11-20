@@ -54,7 +54,7 @@ app.use(cors());
 app.use('/auth', authRouter);
 
 // Using jwt auth for every route below
-app.use(auth);
+// app.use(auth);
 
 // Contains search query routes
 app.use('/', indexRouter);
