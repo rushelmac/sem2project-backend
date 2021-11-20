@@ -60,7 +60,49 @@ router.post('/register' , async (req, res ) => {
         const salt = await bcrypt.genSalt(5);
         newUser.credentials.password = await bcrypt.hash(req.body.password || req.body.email, salt);
         newUser = await newUser.save();
-    }catch(e){ console.log(e)}
+
+        // Create User Profile.
+        const userProfile = {
+            user_id: newUser._id,
+            professional_info: [
+                {
+                    post : req.body.current_post,
+                    organization : req.body.current_organization,
+                    start_date : new Date(),
+                    end_date : new Date()
+                }
+            ],
+            educational_info:[],
+            personal_info: {
+                about_me    : null,
+                birthdate   : null
+            },
+            contact_info: {
+                mobile_no   : req.body.mobile_no,
+                alt_mobile_no: req.body.alt_mobile_no || null,
+                email       : req.body.email,
+                alt_email   : req.body.alt_email || null,
+                address     : req.body.address || null,
+                city        : req.body.city || null,
+                state       : req.body.state || null,
+                country     : req.body.country || null,
+                pincode     : req.body.pincode || null
+            },
+            profiles: {
+                linkedin    : null,
+                github      : null,
+                twitter     : null,
+                facebook    : null,
+                youtube     : null,
+                instagram   : null
+            }
+        };
+
+        try{
+            const newUserProfile = new User(userProfile);
+            await newUserProfile.save();
+        }catch(err){console.log("User created successfully. Error while creating profile" + err);}
+    }catch(e){ console.log("Error while creating user" + e);}
 
     // Async function to send mail.
     jwt.sign(
