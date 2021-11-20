@@ -4,10 +4,10 @@ const userProfileSchema = new mongoose.Schema({
     user_id:{
         type: mongoose.Schema.Types.ObjectId
     },
-    professional_info: [
+    professional_info: [ // It includes current job.
         {
             post    : String,
-            company : String,
+            organization : String,
             from    : String,
             to      : String
         }
@@ -26,7 +26,13 @@ const userProfileSchema = new mongoose.Schema({
     },
     contact_info: {
         mobile_no   : Number,
-        email       : String
+        alt_mobile_no: Number,
+        email       : String,
+        alt_email   : String,
+        city        : String,
+        state       : String,
+        country     : String,
+        pincode     : Number
     },
     profiles: {
         linkedin    : String,
@@ -35,7 +41,8 @@ const userProfileSchema = new mongoose.Schema({
         facebook    : String,
         youtube     : String,
         instagram   : String
-    }
+    },
+    area_of_expertise: String
 });
 
 // Creating mongoDB model from defined schema
