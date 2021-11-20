@@ -51,7 +51,8 @@ router.post('/register' , async (req, res ) => {
             user_role: req.body.user_role, 
             current_post:req.body.current_post, 
             current_organization: req.body.current_organization
-        }
+        },
+        activities : req.body.activities
     };
 
     try{
@@ -95,7 +96,8 @@ router.post('/register' , async (req, res ) => {
                 facebook    : null,
                 youtube     : null,
                 instagram   : null
-            }
+            },
+            area_of_expertise: req.body.area_of_expertise
         };
 
         try{
