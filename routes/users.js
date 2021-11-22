@@ -47,14 +47,17 @@ router.get('/:id', async (req, res) =>{
 });
 
 // Update user profile route.
+// #### Tested: works fine for activities field.
 router.put('/:id', async (req, res) =>{
-    let { error } = validateUser(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
+    // let { error } = validateUser(req.body);
+    // if(error) return res.status(400).send(error.details[0].message);
 
-    const paramCheck = validateParams(req.params);
-    if(paramCheck.error) return res.status(400).send(paramCheck.error.details[0].message);
+    // const paramCheck = validateParams(req.params);
+    // if(paramCheck.error) return res.status(400).send(paramCheck.error.details[0].message);
 
-    const found = await User.findByIdAndUpdate(req.params.id,_.pick(req.body, ['first_name','last_name','email','password']), {new:true});
+    console.log(req.body.userObj);
+    // new:true returns the updated document, upser:true adds the new document if it doesn't exist
+    const found = await User.findByIdAndUpdate(req.params.id, req.body.userObj, {new:true});
 
     if(!found) return res.status(404).send('User not found with given ID');
 
@@ -74,10 +77,20 @@ router.delete('/:id', async (req, res) => {
     res.send(found);
 });
 
-// temp login route
-router.get("/login", async (req, res)=>{
-    res.send("you've successfully logged in");
+// Get user by email.
+// #Tested, works fine.
+router.get('/email/:id', async (req, res) => {
+    console.log(req.params.id)
+    const found = await User.findOne({"credentials.email":req.params.id}).select("info activities");
+    if(!found) return res.status(404).send('User not found with given email');
+    res.send(found);
 });
+
+// Unnecessary and useless.
+// // temp login route
+// router.get("/login", async (req, res)=>{
+//     res.send("you've successfully logged in");
+// });
 
 module.exports = router;
 
