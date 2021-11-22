@@ -6,7 +6,8 @@ const express   = require('express'),
     Joi         = require('joi'),
     sendMail    = require("../controllers/verify-mail"),
     jwt         = require('jsonwebtoken'),
-    { User, validateUser, validateParams}    = require('../models/User');
+    { User, validateUser, validateParams}    = require('../models/User'),
+    {userProfile} = require('../models/userProfile');
 
 // Configure dotenv dependancy to use credentials securely
 require('dotenv').config();
@@ -52,7 +53,29 @@ router.post('/register' , async (req, res ) => {
             current_post:req.body.current_post, 
             current_organization: req.body.current_organization
         },
-        activities : req.body.activities
+        activities : {
+            spoc                    : req.body.spoc,
+            talks_and_meets         : req.body.talks_and_meets,
+            employability_assesment : req.body.employability_assesment,
+            mentorship              : req.body.mentorship,
+            portal_for_career_opportunities: req.body.portal_for_career_opportunities,
+            curriculum_revamping    : req.body.curriculum_revamping,
+            faculty_alumni_workshops: req.body.faculty_alumni_workshops,
+            annual_alumni_meet      : req.body.annual_alumni_meet,
+            sponsored_projects      : req.body.sponsored_projects,
+            awards                  : req.body.awards,
+            modernization_of_labs   : req.body.modernization_of_labs,
+            industrial_visits       : req.body.industrial_visits,
+            internships             : req.body.internships,
+            testing_and_consultancy : req.body.testing_and_consultancy,
+            involvement_in_evolution_process: req.body.involvement_in_evolution_process,
+            icc                     : req.body.icc,
+            industry_institute_interaction: req.body.industry_institute_interaction,
+            soft_skill_training     : req.body.soft_skill_training,
+            member_academic_board   : req.body.member_academic_board,
+            helping_student_activities: req.body.helping_student_activities,
+            felicitations_of_distinguished_alumni: req.body.felicitations_of_distinguished_alumni
+        }
     };
 
     try{
@@ -63,7 +86,7 @@ router.post('/register' , async (req, res ) => {
         newUser = await newUser.save();
 
         // Create User Profile.
-        const userProfile = {
+        const userProfileObj = {
             user_id: newUser._id,
             professional_info: [
                 {
@@ -101,10 +124,10 @@ router.post('/register' , async (req, res ) => {
         };
 
         try{
-            const newUserProfile = new User(userProfile);
+            const newUserProfile = new userProfile(userProfileObj);
             await newUserProfile.save();
         }catch(err){console.log("User created successfully. Error while creating profile" + err);}
-    }catch(e){ console.log("Error while creating user" + e);}
+    }catch(e){ console.log("Error while creating user " + e);}
 
     // Async function to send mail.
     jwt.sign(
@@ -174,13 +197,13 @@ router.get('/confirmation/:token', async (req, res)=>{
 });
 
 // Validate user attribute limits
-function validateAuth(req){
+// function validateAuth(req){
 
-    const schema = Joi.object({
-        email : Joi.string().min(10).max(255).required().email(),
-        password : Joi.string().min(8).max(1024).required()
-    });
-    return schema.validate(req);
-}
+//     const schema = Joi.object({
+//         email : Joi.string().min(10).max(255).required().email(),
+//         password : Joi.string().min(8).max(1024).required()
+//     });
+//     return schema.validate(req);
+// }
 
 module.exports = router;
